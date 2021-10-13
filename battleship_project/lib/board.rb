@@ -40,20 +40,33 @@ class Board
     end
 
     def hidden_ships_grid
-        new_grid = []
+        n = @grid.length
+        new_grid = Array.new(n) {Array.new(n)}
 
-        @grid.each do |arr|
-            arr.each do |ele|
+        @grid.each.with_index do |arr, idx_1|
+            arr.each.with_index do |ele, idx_2|
                 if ele == :S
-                    new_grid << :N 
+                    new_grid[idx_1][idx_2] = :N 
                 else
-                    new_grid << ele
+                    new_grid[idx_1][idx_2] = ele
                 end
             end
-            new_grid
         end
-
+        new_grid
     end
 
-  
+    def self.print_grid(arr)
+        arr.each do |row|
+           puts row.join(" ")
+        end
+    end
+
+    def cheat
+        Board.print_grid(@grid)
+    end
+
+    def print
+        Board.print_grid(hidden_ships_grid)
+    end
+    
 end
