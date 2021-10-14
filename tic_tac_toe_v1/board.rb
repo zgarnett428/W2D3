@@ -16,8 +16,9 @@ class Board
 
     def valid?(pos)
         row, col = pos
-        return false if !(0...@grid.length).include?(row) || !(0...@grid.length).include?(col)
-        true
+        pos.all? do |i|
+            0 <= i && i < @grid.length
+        end
     end
 
     def empty?(pos)
@@ -25,12 +26,11 @@ class Board
     end
 
     def place_mark(pos, mark)
-        row, col = pos
-        if self.empty?(pos) && self.valid?(pos)
-            self[pos] = mark
-        else
-            puts "invalid position, try again"
+        if !empty?(pos) || !valid?(pos)
+            return false
         end
+        self[pos] = mark
+        true
     end
 
     def print
@@ -64,8 +64,7 @@ class Board
     end
 
     def win?(mark)
-        return true if win_row?(mark) == true || win_col?(mark) == true || win_diagonal?(mark) == true
-        false
+        win_row?(mark) || win_col?(mark) || win_diagonal?(mark)
     end
 
     def empty_positions?
@@ -75,18 +74,3 @@ class Board
 
 
 end
-
-# b = Board.new
-# b.print
-# b.place_mark([0,0], :X)
-# b.print
-# b.place_mark([0,0], :O)
-# b.place_mark([0,2], :X)
-# b.place_mark([1,0], :X)
-# b.place_mark([1,1], :X)
-# b.place_mark([1,2], :X)
-# b.place_mark([2,0], :O)
-# b.place_mark([2,1], :O)
-# b.place_mark([2,2], :O)
-# b.print
-# p b.empty_positions?
